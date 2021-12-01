@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Dropzone from './Component/Dropzone';
 import api from './services/api';
 import './styles/App.css';
 
@@ -59,7 +58,6 @@ function App() {
             <p>4- Clique em Atualizar para adicionar outro arquivo.</p>
           </div>
           <div className="right-block">
-            <Dropzone onFileUploaded={setFile}/>
             <div className="form-field">
                 <button onClick={postFileToApi}>Upload</button>
                 <button id="converter" onClick={convertFile}>Converter</button>
