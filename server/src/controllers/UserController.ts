@@ -13,10 +13,10 @@ class UserController {
             var found = users.find(user => (user.email == request.body.email) || (user.nickname == request.body.nickname));
         }
         
-        if(found == undefined || found == null) {
+        if(found === undefined || found === null) {
 
             try {
-                var userId = await userRepository.createUser(request.body);
+                const userId = await userRepository.createUser(request.body);
                 return response.json(userId);
             } catch(e) {
                 response.status(400);
@@ -60,6 +60,25 @@ class UserController {
             return response.json({status:"Not found"});
         }
         return response.json(user);
+    }
+
+    async getUserNicknameById(request: Request, response: Response) {
+        const userRepository = new UserRepository();
+
+        const id = parseInt(request.params.id);
+
+        if(isNaN(id) || !isFinite(id)){
+            response.status(400);
+            return response.json({status:"Bad request"});
+        }
+
+        const user: User | undefined = await userRepository.getUserById(id);
+        
+        if(user === undefined){
+            response.status(404);
+            return response.json({status:"Not found"});
+        }
+        return response.json(user.nickname);
     }
 
     badRequest(request: Request, response: Response) {

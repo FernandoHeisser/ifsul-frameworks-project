@@ -6,7 +6,7 @@ class Question {
     title: string;
     body: string;
     createDate: string;
-    answers?: Array<Answer>[];
+    answers?: Array<Answer>;
 
     constructor(userId: number, title: string, body: string) {
         this.userId = userId;
