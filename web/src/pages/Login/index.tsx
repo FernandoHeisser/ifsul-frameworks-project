@@ -1,16 +1,22 @@
 import React from 'react';
 import './styles.css';
 
-const Login = () =>{
-    return(
-        <div id="page-home">
-            <div className="content">
-                <main>
-                    <h1>Seu marketplace de coleta de resíduos.</h1>
-                    <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
-                </main>
+const Login = () => {
+    return (
+        <main>
+            <div className='left'>
+                <h1>Bah Respostas</h1>
+                <p>Faça e responda perguntas usando um apelido super dahora.</p>
             </div>
-        </div>
+            <div className='right'>
+                <input required type='email' placeholder="Email" />
+                <input required type="password" placeholder="Password" />
+                <button className='login' >Login</button>
+                <div className='center'>
+                    <button className='register'>Criar conta</button>
+                </div>
+            </div>
+        </main>
     );
 }
 export default Login;
