@@ -1,24 +1,24 @@
-main {
+.login-main {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh; 
 }
-.left {
+.login-main .left {
     display: flex;
     flex-direction: column;
     width: 40%;
     margin: 50px;
 }
-.left h1 {
+.login-main .left .login-title {
     font-size: 48px;
     margin: 15px;
 }
-.left p {
+.login-main .left .login-span {
     font-size: 28px;
     margin: 15px;
 }
-.right {
+.login-main .right {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -27,7 +27,7 @@ main {
     margin: 50px;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
 }
-.right input {
+.login-main .right .login-input {
     height: 50px;
     width: 300px;
     padding: 15px;
@@ -36,11 +36,11 @@ main {
     border-radius: 10px;
     border: solid 1px #BEBEBE;
 }
-.right input:focus {
+.login-main .right .login-input:focus {
     outline: none !important;
     border: solid 2px var(--title-color);
 }
-.right .login {
+.login-main .right .login {
     height: 50px;
     width: 300px;
     padding: 15px;
@@ -53,14 +53,14 @@ main {
     border: solid 1px var(--title-color);
     transition: background-color 0.2s;
 }
-.right .login:focus {
+.login-main .right .login:focus {
     background-color: #f18e96;
 }
-.right .login:hover {
+.login-main .right .login:hover {
     background-color: #9f141f;
     cursor: pointer;
 }
-.right .register {
+.login-main .right .register {
     height: 50px;
     width: 150px;
     padding: 15px;
@@ -73,11 +73,10 @@ main {
     border: solid 1px #36A420;
     transition: background-color 0.2s;
 }
-.right .register:focus {
+.login-main .right .register:focus {
     background-color: #b5eeaa;
-    pointer-events: none;
 }
-.right .register:hover {
+.login-main .right .register:hover {
     background-color: #47883a;
     cursor: pointer;
 }
