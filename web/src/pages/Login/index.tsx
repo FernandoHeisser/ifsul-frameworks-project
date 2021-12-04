@@ -1,10 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import Modal from '../../components/Modal';
+import { useHistory } from 'react-router';
+import Modal from '../../components/RegisterModal';
 import User from '../../models/User';
 import api from '../../services/api';
 import './login.css';
 
 const Login = () => {
+    const history = useHistory();
+
     const [showModal, setShowModal] = useState(false);
     const [errorFlag, setErrorFlag] = useState(false);
 
@@ -18,6 +21,7 @@ const Login = () => {
     }
     function closeModal() {
         setShowModal(false);
+        setErrorFlag(false);
     }
     function handleEmail(event: ChangeEvent<HTMLInputElement>) {
         const email = event.target.value;
@@ -32,7 +36,7 @@ const Login = () => {
         if (foundWithEmail !== undefined) {
             let foundWithPassword = users.find((user: User) => user.password === password);
             if (foundWithPassword !== undefined) {
-                login();
+                login(foundWithPassword);
             } else {
                 alertError();
             }
@@ -44,8 +48,13 @@ const Login = () => {
     function alertError() {
         setErrorFlag(true);
     }
-    function login() {
+    function login(user: User) {
         setErrorFlag(false);
+        if (user.id !== undefined) {
+            alert(user?.id.toString());
+            localStorage.setItem('userId', user?.id.toString());
+            history.push('/home');
+        }
     }
 
     useEffect(() => {

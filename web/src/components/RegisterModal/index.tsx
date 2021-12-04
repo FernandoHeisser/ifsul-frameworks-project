@@ -1,10 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import User from '../../models/User';
+import api from '../../services/api';
 import './modal.css';
 
 const Modal = (props: any) => {
     const [errorEmailFlag, setErrorEmailFlag] = useState(false);
     const [errorNicknameFlag, setErrorNicknameFlag] = useState(false);
+    const [createdFlag, setCreatedFlag] = useState(false);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,6 +15,7 @@ const Modal = (props: any) => {
     const [users, setUsers] = useState([]);
 
     function handleEmail(event: ChangeEvent<HTMLInputElement>) {
+        setErrorEmailFlag(false);
         const email = event.target.value;
         setEmail(email);
     }
@@ -21,25 +24,28 @@ const Modal = (props: any) => {
         setPassword(password);
     }
     function handleNickname(event: ChangeEvent<HTMLInputElement>) {
+        setErrorNicknameFlag(false);
         const nickname = event.target.value;
         setNickname(nickname);
     }
-    function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: FormEvent) {
+        event.preventDefault();
         let foundWithEmail = users.find((user: User) => user.email === email);
-        console.log(foundWithEmail);
-        return;
         if (foundWithEmail !== undefined) {
             alertEmail();
+            return;
         } else {
             let foundWithNickname = users.find((user: User) => user.nickname === nickname);
             if (foundWithNickname !== undefined) {
                 alertNickname();
+                return;
             } else {
-                register();
+                if (await register()) {
+                    setCreatedFlag(true);
+                    setTimeout(() => props.onClose(), 1000);
+                }
             }
         }
-        event.preventDefault();
-        props.onClose();
     }
     function alertEmail() {
         setErrorEmailFlag(true);
@@ -47,10 +53,32 @@ const Modal = (props: any) => {
     function alertNickname() {
         setErrorNicknameFlag(true);
     }
-    function register() {
+    async function register() {
         setErrorEmailFlag(false);
         setErrorNicknameFlag(false);
+
+        const createdUser: User = {
+            email: email,
+            password: password,
+            nickname: nickname
+        }
+
+        const response = await api.post('user', createdUser);
+
+        if (response.data === undefined) {
+            return false;
+        } else {
+            return true;
+        }
     }
+
+    useEffect(() => {
+        async function getUsers() {
+            let response = await api.get('users');
+            setUsers(response.data);
+        }
+        getUsers();
+    }, []);
 
     if (!props.show) {
         return null;
@@ -65,12 +93,13 @@ const Modal = (props: any) => {
                 <div className='modal-content'>
                     <form onSubmit={handleSubmit}>
                         <input className={errorEmailFlag ? 'modal-input-error' : 'modal-input'} placeholder='Email' required type="email" onChange={handleEmail} />
-                        <p className={errorEmailFlag ? 'modal-error-message' : 'modal-error-message-none'}>Email ou senha incorreto.</p>
+                        <p className={errorEmailFlag ? 'modal-error-message' : 'modal-error-message-none'}>Email já cadastrado.</p>
                         <input className='modal-input' placeholder='Senha' required type="password" onChange={handlePassword} />
                         <p className='modal-span'>Crie um apelido original e divertido</p>
                         <input className={errorNicknameFlag ? 'modal-input-error' : 'modal-input'} placeholder='Apelido' required type="text" onChange={handleNickname} />
-                        <p className={errorNicknameFlag ? 'modal-error-message' : 'modal-error-message-none'}>Email ou senha incorreto.</p>
-                        <button className='modal-button'>Cadastre-se</button>
+                        <p className={errorNicknameFlag ? 'modal-error-message' : 'modal-error-message-none'}>Apelido já cadastrado.</p>
+                        <button type='submit' className='modal-button'>Cadastre-se</button>
+                        <p className={createdFlag ? 'account-created' : 'account-created-none'}>Conta criada com sucesso!</p>
                     </form>
                 </div>
             </div>

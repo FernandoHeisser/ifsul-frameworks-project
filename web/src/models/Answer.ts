@@ -5,11 +5,11 @@ class Answer {
     body: string;
     createDate: string;
 
-    constructor(questionId: number, userId: number, body: string) {
+    constructor(questionId: number, userId: number, body: string, createDate: string) {
         this.questionId = questionId;
         this.userId = userId;
         this.body = body;
-        this.createDate = new Date().toISOString();
+        this.createDate = createDate;
     }
 }
 export default Answer;
