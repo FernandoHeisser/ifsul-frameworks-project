@@ -40,6 +40,25 @@
     outline: none !important;
     border: solid 2px var(--title-color);
 }
+.login-main .right .login-wrong-input {
+    height: 50px;
+    width: 300px;
+    padding: 15px;
+    margin: 15px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: solid 2px #9f141f;
+    color: #9f141f;
+}
+.login-main .right .login-error-message-none {
+    display: none;
+}
+.login-main .right .login-error-message {
+    height: 50px;
+    width: 300px;
+    padding: 15px;
+    color: #9f141f;
+}
 .login-main .right .login {
     height: 50px;
     width: 300px;
