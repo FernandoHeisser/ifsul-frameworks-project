@@ -75,8 +75,9 @@
     background-color: transparent;
     margin-top: 2%;
     margin-left: 2%;
-    height: 60%;
+    height: auto;
     width: 20%;
+    padding: 1%;
     border-radius: 15px;
     background-color: #fff;
     box-shadow: 1px 1px 10px 1px #BEBEBE;
@@ -121,6 +122,14 @@
     background-color: #fff;
     margin: 2%;
     padding: 2%;
+}
+.home-main .home-main-middle .question-card:hover{
+    border: 1px #BEBEBE solid;
+    border-radius: 5px;
+    background-color: #fff;
+    margin: 2%;
+    padding: 2%;
+    cursor: pointer;
 }
 .home-main .home-main-middle .question-card .question-card-header{
     margin-bottom: 2%;
@@ -199,10 +208,31 @@
     border: solid #fff 2px;
     font-size: 40px;
     color: #fff;
+    z-index: 1;
+    transition: background-color 0.2s;
 }
 .home-main .home-main-right .home-right-button:hover{
     background-color: #ff4661;
     border: solid #fff 3px;
     font-size: 50px;
     cursor: pointer;
+}
+.home-main .home-main-right .home-right-button-close{
+    margin: 2%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    border: 2px solid var(--title-color);
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--title-color);
+    z-index: 1;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.home-main .home-main-right .home-right-button-close:hover{
+    background-color: #e6e6e6;
 }

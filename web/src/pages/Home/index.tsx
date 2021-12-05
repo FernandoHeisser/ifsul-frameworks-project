@@ -1,7 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import QuestionModal from '../../components/QuestionModal';
+import AnswerDTO from '../../models/AnswerDTO';
+import QuestionDTO from '../../models/QuestionDTO';
+import User from '../../models/User';
+import api from '../../services/api';
 import './home.css'
 
 const Login = () => {
+    const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
+    const [user, setUser] = useState<User>();
+    const [questions, setQuestions] = useState<QuestionDTO[]>([]);
+    const [asnwers, setAnswers] = useState<AnswerDTO[]>([]);
+
+    function openModal() {
+        setShowModal(true);
+    }
+    function closeModal() {
+        setShowModal(false);
+    }
+    function logOut() {
+        if (window.confirm("Tem certeza que deseja sair?")) {
+            localStorage.clear();
+            history.push('/');
+        }
+    }
+
+    useEffect(() => {
+        async function getUser() {
+            let userId = localStorage.getItem('userId');
+            let response = await api.get(`user/${userId}`);
+            setUser(response.data);
+        }
+        getUser();
+
+        async function getQuestions() {
+            let response = await api.get('question-list');
+            setQuestions(response.data);
+        }
+        getQuestions();
+
+        async function getAnswers() {
+            let response = await api.get('answer-list');
+            setAnswers(response.data);
+        }
+        getAnswers();
+    }, []);
+
     return (
         <div id="page-home">
             <div className="content">
@@ -13,8 +59,8 @@ const Login = () => {
                         <input className='home-header-input' type="text" placeholder='Procurar no Bah Respostas' />
                     </div>
                     <div className='header-right'>
-                        <p className='header-message'>Olá, Fernando</p>
-                        <button className='header-button'>Sair</button>
+                        <p className='header-message'>Olá, {user?.nickname}</p>
+                        <button onClick={logOut} className='header-button'>Sair</button>
                     </div>
                 </header>
                 <main className='home-main'>
@@ -25,187 +71,59 @@ const Login = () => {
                             </div>
                             <div className='home-left-menu-content'>
                                 <ul className="home-left-menu-list">
-                                    <li>
-                                        <p className="home-left-menu-item-content">Cara, pra ser bem sincero, acho que tu deveria desistir...</p>
-                                        <p className="home-left-menu-item-user">RaposaViolenta34325</p>
-                                    </li>
-                                    <li>
-                                        <p className="home-left-menu-item-content">Coloca no lugar no int um long e não esquece do L no final do valor.</p>
-                                        <p className="home-left-menu-item-user">tio_do_pastelltz</p>
-                                    </li>
-                                    <li>
-                                        <p className="home-left-menu-item-content">Com maionese e ketchup com certeza.</p>
-                                        <p className="home-left-menu-item-user">dragonballlgtt</p>
-                                    </li>
-                                    <li>
-                                        <p className="home-left-menu-item-content">Será que tu não tinha outra ideia melhor não?</p>
-                                        <p className="home-left-menu-item-user">xxxCruzxxx</p>
-                                    </li>
-                                    <li>
-                                        <p className="home-left-menu-item-content">Amarelo com azul dá verde.</p>
-                                        <p className="home-left-menu-item-user">falcatruax9</p>
-                                    </li>
-                                    <li>
-                                        <p className="home-left-menu-item-content">Sim.</p>
-                                        <p className="home-left-menu-item-user">Vitoria56325</p>
-                                    </li>
+                                    {asnwers.slice(0, 5).map(answer => (
+                                        <li key={answer.id}>
+                                            <p className="home-left-menu-item-content">{answer.body}</p>
+                                            <p className="home-left-menu-item-user">{answer.nickname}</p>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div className='home-main-middle'>
                         <ul className="home-main-middle-list">
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
+                            {questions.map(question => (
+                                <li key={question.id}>
+                                    <div className='question-card'>
+                                        <div className='question-card-header'>
+                                            <h1 className='question-card-title'>{question.title}</h1>
                                         </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
+                                        <div className='question-card-content'>
+                                            <p className='question-card-body'>{question.body}</p>
                                         </div>
-                                    </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
+                                        <div className='question-card-footer'>
+                                            <div className='question-card-answers'>
+                                                <button className='question-card-answer-button'>Responder</button>
+                                                <span className='question-card-number-answers'>{question.answersCount}</span>
+                                                <p className='question-card-answers-text'>respostas</p>
+                                            </div>
+                                            <div className='question-card-user-information'>
+                                                <p className='card-user-nickname'>{question.nickname}</p>
+                                            </div>
                                         </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
-                                        </div>
+                                        {question.answers.length > 0 ?
+                                            <div className='question-card-answer'>
+                                                <p className='question-card-answer-body'>{question.answers[0].body}</p>
+                                                <p className='question-card-answer-user'>{question.answers[0].nickname}</p>
+                                            </div> :
+                                            null}
                                     </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
-                                        </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
-                                        </div>
-                                    </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
-                                        </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
-                                        </div>
-                                    </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
-                                        </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
-                                        </div>
-                                    </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div className='question-card'>
-                                    <div className='question-card-header'>
-                                        <h1 className='question-card-title'> Com quantos paus se faz uma canoa olimpica, no caso se for feito com madeira, hein?</h1>
-                                    </div>
-                                    <div className='question-card-content'>
-                                        <p className='question-card-body'>Do nada eu tava pensando, como que se faz as canoas olimpicas o maluco brasileiro manda muito bem na canoagem mas quem faz essa canoa faz com o que?</p>
-                                    </div>
-                                    <div className='question-card-footer'>
-                                        <div className='question-card-answers'>
-                                            <button className='question-card-answer-button'>Responder</button>
-                                            <span className='question-card-number-answers'>6</span>
-                                            <p className='question-card-answers-text'>respostas</p>
-                                        </div>
-                                        <div className='question-card-user-information'>
-                                            <p className='card-user-nickname'>JailsonMendesLaranja123</p>
-                                        </div>
-                                    </div>
-                                    <div className='question-card-answer'>
-                                        <p className='question-card-answer-body'>Cara eu acho que mais ou menos 34 paus tu consegue uma canoa bem massa.</p>
-                                        <p className='question-card-answer-user'>PaulinhoGOGO7367</p>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className='home-main-right'>
-                        <button className='home-right-button'>+</button>
+                        <button onClick={() => {
+                            showModal ?
+                                closeModal() :
+                                setTimeout(openModal, 200)
+
+                        }} className={showModal ? 'home-right-button-close' : 'home-right-button'}>{showModal ? 'X' : '+'}</button>
                     </div>
                 </main>
             </div>
+            <QuestionModal show={showModal} onClose={() => setTimeout(closeModal, 200)} />
         </div>
     );
 }

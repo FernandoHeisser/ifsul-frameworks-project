@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import Modal from '../../components/RegisterModal';
+import RegisterModal from '../../components/RegisterModal';
 import User from '../../models/User';
 import api from '../../services/api';
 import './login.css';
@@ -51,7 +51,6 @@ const Login = () => {
     function login(user: User) {
         setErrorFlag(false);
         if (user.id !== undefined) {
-            alert(user?.id.toString());
             localStorage.setItem('userId', user?.id.toString());
             history.push('/home');
         }
@@ -82,7 +81,7 @@ const Login = () => {
                     </div>
                 </div>
             </form>
-            <Modal show={showModal} onClose={() => setTimeout(closeModal, 200)} />
+            <RegisterModal show={showModal} onClose={() => setTimeout(closeModal, 200)} />
         </main>
     );
 }

@@ -3,7 +3,7 @@ import User from '../../models/User';
 import api from '../../services/api';
 import './modal.css';
 
-const Modal = (props: any) => {
+const RegisterModal = (props: any) => {
     const [errorEmailFlag, setErrorEmailFlag] = useState(false);
     const [errorNicknameFlag, setErrorNicknameFlag] = useState(false);
     const [createdFlag, setCreatedFlag] = useState(false);
@@ -106,4 +106,4 @@ const Modal = (props: any) => {
         </div>
     );
 }
-export default Modal;
+export default RegisterModal;

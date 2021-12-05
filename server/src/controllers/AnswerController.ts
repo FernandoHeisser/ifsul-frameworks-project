@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Answer from '../models/Answer';
+import AnswerDTO from '../models/AnswerDTO';
 import AnswerRepository from '../repositories/AnswerRepository'
 import QuestionRepository from '../repositories/QuestionRepository'
 import UserRepository from '../repositories/UserRepository'
@@ -114,6 +115,37 @@ class AnswerController {
             return response.json({status:"Not found"});
         }
         return response.json(answers);
+    }
+
+    async getAnswerList(request: Request, response: Response) {
+        const answerRepository = new AnswerRepository();
+        const userRepository = new UserRepository();
+        
+        const answers: Answer[] | undefined = await answerRepository.getAnswers();
+
+        let answerDTOs: AnswerDTO[] = [];
+
+        for(let answer of answers) {
+
+            const user = await userRepository.getUserById(answer.userId);
+
+            if(answer.id !== undefined && user !== undefined) {
+                answerDTOs.push({
+                    id: answer.id,
+                    questionId: answer.questionId,
+                    userId: answer.userId,
+                    nickname: user.nickname,
+                    body: answer.body,
+                    createDate: answer.createDate
+                });
+            }
+        };
+
+        if(answerDTOs === undefined){
+            response.status(404);
+            return response.json({status:"Not found"});
+        }
+        return response.json(answerDTOs);
     }
 }
 export default AnswerController;
