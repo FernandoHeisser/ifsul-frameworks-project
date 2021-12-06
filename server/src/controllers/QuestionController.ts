@@ -142,5 +142,62 @@ class QuestionController {
         }
         return response.json(questionDTOs);
     }
+
+    async searchQuestions(request: Request, response: Response) {
+        const questionRepository = new QuestionRepository();
+        const userRepository = new UserRepository();
+
+        const questions: Question[] | undefined = await questionRepository.searchQuestions(request.params.search);
+
+        var questionDTOs: QuestionDTO[] = [];
+
+        for(let question of questions) {
+            if(question.id !== undefined ) {
+                
+                const user = await userRepository.getUserById(question.userId);
+
+                let answerDTOs: AnswerDTO[] = [];
+                
+                if(question.answers != undefined) {
+
+                    for(let answer of question.answers) {
+
+                        const user = await userRepository.getUserById(answer.userId);
+
+                        if(answer.id !== undefined && user !== undefined) {
+                            answerDTOs.push({
+                                id: answer.id,
+                                questionId: answer.questionId,
+                                userId: answer.userId,
+                                nickname: user.nickname,
+                                body: answer.body,
+                                createDate: answer.createDate
+                            });
+                        }
+                    };
+                }
+
+                if(user != undefined) {
+                    questionDTOs.push({
+                        id: question.id,
+                        userId: question.userId,
+                        nickname: user.nickname,
+                        title: question.title,
+                        body: question.body,
+                        createDate: question.createDate,
+                        answers: answerDTOs,
+                        answersCount: question.answers != undefined ? question.answers.length : 0
+                    });
+    
+                }
+            }
+        }
+        
+        if(questionDTOs === undefined){
+            response.status(404);
+            return response.json({status:"Not found"});
+        }
+        return response.json(questionDTOs);
+    }
 }
 export default QuestionController;

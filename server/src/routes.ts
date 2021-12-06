@@ -21,6 +21,7 @@ routes.get('/api/question/:id', questionController.getQuestionById);
 routes.get('/api/questions/user/:id', questionController.getQuestionsByUserId);
 
 routes.get('/api/question-list', questionController.getQuestionList);
+routes.get('/api/question-list/search/:search', questionController.searchQuestions);
 
 routes.post('/api/answer', answerController.createAnswer);
 routes.get('/api/answers', answerController.getAnswers);

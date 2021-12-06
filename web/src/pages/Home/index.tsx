@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import QuestionModal from '../../components/QuestionModal';
 import AnswerDTO from '../../models/AnswerDTO';
@@ -34,6 +34,15 @@ const Login = () => {
         localStorage.setItem('questionId', questionId.toString());
         history.push('/question');
     }
+    async function searchQuestions(event: ChangeEvent<HTMLInputElement>) {
+        const searchParameter = event.target.value;
+
+        const response = await api.get(`question-list/search/${searchParameter}`);
+
+        if (response.status === 200) {
+            setQuestions(response.data);
+        }
+    }
 
     useEffect(() => {
         async function getUser() {
@@ -64,7 +73,7 @@ const Login = () => {
                         <h1 className='home-title'>Bah Respostas</h1>
                     </div>
                     <div className='header-middle'>
-                        <input className='home-header-input' type="text" placeholder='Procurar no Bah Respostas' />
+                        <input className='home-header-input' type="text" placeholder='Procurar no Bah Respostas' onChange={searchQuestions} />
                     </div>
                     <div className='header-right'>
                         <p className='header-message'>Olá, {user?.nickname}</p>
