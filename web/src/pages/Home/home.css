@@ -12,7 +12,7 @@
     padding: 1%;
 }
 .home-header .header-left {
-    width: 33%;
+    width: 30%;
 }
 .home-header .header-left .home-title {
     color: #fff;
@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 .home-header .header-middle {
-    width: 33%;
+    width: 30%;
 }
 .home-header .header-middle .home-header-input {
     height: 35px;
@@ -39,7 +39,7 @@
     color: var(--text-color);
 }
 .home-header .header-right {
-    width: 33%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
     padding: 5px 0px 0px 18%;
