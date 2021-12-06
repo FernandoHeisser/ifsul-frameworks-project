@@ -10,7 +10,6 @@ class QuestionController {
     async createQuestion(request: Request, response: Response) {
         const questionRepository = new QuestionRepository();
         const userRepository = new UserRepository();
-        console.log(request.body);
         try {
             const userId = request.body.userId;
 

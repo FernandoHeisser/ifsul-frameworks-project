@@ -1,5 +1,5 @@
 class Answer {
-    id: number;
+    id?: number;
     questionId: number;
     userId: number;
     nickname: string;

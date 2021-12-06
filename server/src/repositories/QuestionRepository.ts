@@ -56,6 +56,7 @@ class QuestionRepository {
                 const answers: Answer[] = await answerRepository.getAnswersByQuestionId(question.id);
                 
                 const questionAnswered: Question = {
+                    id: question.id,
                     userId: question.userId,
                     title: question.title,
                     body: question.body,
@@ -85,6 +86,7 @@ class QuestionRepository {
                     const answers: Answer[] = await answerRepository.getAnswersByQuestionId(question.id);
                     
                     const questionAnswered: Question = {
+                        id: question.id,
                         userId: question.userId,
                         title: question.title,
                         body: question.body,

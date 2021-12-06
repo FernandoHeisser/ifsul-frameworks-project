@@ -26,23 +26,27 @@ const Login = () => {
             history.push('/');
         }
     }
+    function goToQuestion(questionId: number) {
+        localStorage.setItem('questionId', questionId.toString());
+        history.push('/question');
+    }
 
     useEffect(() => {
         async function getUser() {
-            let userId = localStorage.getItem('userId');
-            let response = await api.get(`user/${userId}`);
+            const userId = localStorage.getItem('userId');
+            const response = await api.get(`user/${userId}`);
             setUser(response.data);
         }
         getUser();
 
         async function getQuestions() {
-            let response = await api.get('question-list');
+            const response = await api.get('question-list');
             setQuestions(response.data);
         }
         getQuestions();
 
         async function getAnswers() {
-            let response = await api.get('answer-list');
+            const response = await api.get('answer-list');
             setAnswers(response.data);
         }
         getAnswers();
@@ -85,7 +89,7 @@ const Login = () => {
                         <ul className="home-main-middle-list">
                             {questions.map(question => (
                                 <li key={question.id}>
-                                    <div className='question-card'>
+                                    <div onClick={() => goToQuestion(question.id)} className='question-card'>
                                         <div className='question-card-header'>
                                             <h1 className='question-card-title'>{question.title}</h1>
                                         </div>
@@ -96,7 +100,7 @@ const Login = () => {
                                             <div className='question-card-answers'>
                                                 <button className='question-card-answer-button'>Responder</button>
                                                 <span className='question-card-number-answers'>{question.answersCount}</span>
-                                                <p className='question-card-answers-text'>respostas</p>
+                                                <p className='question-card-answers-text'>{question.answersCount === 1 ? 'resposta' : 'respostas'}</p>
                                             </div>
                                             <div className='question-card-user-information'>
                                                 <p className='card-user-nickname'>{question.nickname}</p>

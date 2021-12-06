@@ -3,7 +3,7 @@ import AnswerDTO from './AnswerDTO'
 class QuestionDTO {
     id: number;
     userId: number;
-    nickname: string;
+    nickname?: string;
     title: string;
     body: string;
     createDate: string;

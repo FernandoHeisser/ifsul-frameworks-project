@@ -30,12 +30,12 @@ const RegisterModal = (props: any) => {
     }
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
-        let foundWithEmail = users.find((user: User) => user.email === email);
+        const foundWithEmail = users.find((user: User) => user.email === email);
         if (foundWithEmail !== undefined) {
             alertEmail();
             return;
         } else {
-            let foundWithNickname = users.find((user: User) => user.nickname === nickname);
+            const foundWithNickname = users.find((user: User) => user.nickname === nickname);
             if (foundWithNickname !== undefined) {
                 alertNickname();
                 return;
@@ -74,7 +74,7 @@ const RegisterModal = (props: any) => {
 
     useEffect(() => {
         async function getUsers() {
-            let response = await api.get('users');
+            const response = await api.get('users');
             setUsers(response.data);
         }
         getUsers();

@@ -32,9 +32,9 @@ const Login = () => {
         setPassword(password);
     }
     function handleSubmit(event: FormEvent) {
-        let foundWithEmail = users.find((user: User) => user.email === email);
+        const foundWithEmail = users.find((user: User) => user.email === email);
         if (foundWithEmail !== undefined) {
-            let foundWithPassword = users.find((user: User) => user.password === password);
+            const foundWithPassword = users.find((user: User) => user.password === password);
             if (foundWithPassword !== undefined) {
                 login(foundWithPassword);
             } else {
@@ -58,7 +58,7 @@ const Login = () => {
 
     useEffect(() => {
         async function getUsers() {
-            let response = await api.get('users');
+            const response = await api.get('users');
             setUsers(response.data);
         }
         getUsers();
