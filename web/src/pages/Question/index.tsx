@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Answer from '../../models/Answer';
 import AnswerDTO from '../../models/AnswerDTO';
@@ -13,6 +13,7 @@ const Question = () => {
     const [question, setQuestion] = useState<QuestionDTO>();
     const [asnwers, setAnswers] = useState<AnswerDTO[]>([]);
     const [asnwer, setAnswer] = useState("");
+    const [searchParameter, setSearchParameter] = useState("");
 
     function logOut() {
         if (window.confirm("Tem certeza que deseja sair?")) {
@@ -23,6 +24,10 @@ const Question = () => {
 
     function handleAnswer(event: ChangeEvent<HTMLTextAreaElement>) {
         setAnswer(event.target.value);
+    }
+
+    function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+        setSearchParameter(event.target.value);
     }
 
     function backHome() {
@@ -51,6 +56,13 @@ const Question = () => {
     function goToAnswer(questionId: number) {
         localStorage.setItem('questionId', questionId.toString());
         window.location.reload();
+    }
+
+    async function searchQuestions(event: { key: string; }) {
+        if (event.key === 'Enter') {
+            localStorage.setItem('search-parameter', searchParameter);
+            history.push('/home');
+        }
     }
 
     useEffect(() => {
@@ -111,6 +123,7 @@ const Question = () => {
                         <h1 onClick={backHome} className='question-page-title'>Bah Respostas</h1>
                     </div>
                     <div className='header-middle'>
+                        <input className='question-page-header-input' type="text" placeholder='Procurar no Bah Respostas' onKeyPress={searchQuestions} onChange={handleSearch} />
                     </div>
                     <div className='header-right'>
                         <p className='header-message'>Olá, {user?.nickname}</p>

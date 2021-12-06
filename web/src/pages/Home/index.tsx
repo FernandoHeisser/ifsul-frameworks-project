@@ -37,11 +37,19 @@ const Login = () => {
     async function searchQuestions(event: ChangeEvent<HTMLInputElement>) {
         const searchParameter = event.target.value;
 
-        const response = await api.get(`question-list/search/${searchParameter}`);
+        if (searchParameter === '' || searchParameter === undefined || searchParameter === null) {
+            var response = await api.get(`question-list`);
+        } else {
+            var response = await api.get(`question-list/search/${searchParameter}`);
+        }
 
         if (response.status === 200) {
             setQuestions(response.data);
         }
+    }
+
+    function backHome() {
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -53,8 +61,16 @@ const Login = () => {
         getUser();
 
         async function getQuestions() {
-            const response = await api.get('question-list');
-            setQuestions(response.data);
+            const searchParameter = localStorage.getItem('search-parameter');
+            if (searchParameter === null) {
+                const response = await api.get('question-list');
+                setQuestions(response.data);
+            } else {
+                const response = await api.get(`question-list/search/${searchParameter}`);
+                setQuestions(response.data);
+                localStorage.removeItem('search-parameter');
+            }
+
         }
         getQuestions();
 
@@ -70,7 +86,7 @@ const Login = () => {
             <div className="content">
                 <header className='home-header'>
                     <div className='header-left'>
-                        <h1 className='home-title'>Bah Respostas</h1>
+                        <h1 onClick={backHome} className='home-title'>Bah Respostas</h1>
                     </div>
                     <div className='header-middle'>
                         <input className='home-header-input' type="text" placeholder='Procurar no Bah Respostas' onChange={searchQuestions} />

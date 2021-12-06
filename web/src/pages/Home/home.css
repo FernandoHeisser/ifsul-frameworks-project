@@ -17,6 +17,10 @@
 .home-header .header-left .home-title {
     color: #fff;
 }
+.home-header .header-left .home-title:hover {
+    color: #fff;
+    cursor: pointer;
+}
 .home-header .header-middle {
     width: 33%;
 }
