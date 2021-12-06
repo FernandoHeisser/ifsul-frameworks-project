@@ -30,6 +30,10 @@ const Login = () => {
         localStorage.setItem('questionId', questionId.toString());
         history.push('/question');
     }
+    function goToAnswer(questionId: number) {
+        localStorage.setItem('questionId', questionId.toString());
+        history.push('/question');
+    }
 
     useEffect(() => {
         async function getUser() {
@@ -77,7 +81,7 @@ const Login = () => {
                                 <ul className="home-left-menu-list">
                                     {asnwers.slice(0, 5).map(answer => (
                                         <li key={answer.id}>
-                                            <p className="home-left-menu-item-content">{answer.body}</p>
+                                            <p onClick={() => goToAnswer(answer.questionId)} className="home-left-menu-item-content">{answer.body}</p>
                                             <p className="home-left-menu-item-user">{answer.nickname}</p>
                                         </li>
                                     ))}

@@ -48,6 +48,11 @@ const Question = () => {
         }
     }
 
+    function goToAnswer(questionId: number) {
+        localStorage.setItem('questionId', questionId.toString());
+        window.location.reload();
+    }
+
     useEffect(() => {
         async function getQuestion() {
             const userId = localStorage.getItem('userId');
@@ -122,7 +127,7 @@ const Question = () => {
                                 <ul className="question-page-left-menu-list">
                                     {asnwers.slice(0, 5).map(answer => (
                                         <li key={answer.id}>
-                                            <p className="question-page-left-menu-item-content">{answer.body}</p>
+                                            <p onClick={() => goToAnswer(answer.questionId)} className="question-page-left-menu-item-content">{answer.body}</p>
                                             <p className="question-page-left-menu-item-user">{answer.nickname}</p>
                                         </li>
                                     ))}
@@ -160,7 +165,7 @@ const Question = () => {
                             </div>
                             {question?.answersCount !== undefined && question?.answersCount > 0 ?
                                 question.answers.map(answer => (
-                                    <div className='question-card-answer'>
+                                    <div key={answer.id} className='question-card-answer'>
                                         <p className='question-card-answer-body'>{answer.body}</p>
                                         <p className='question-card-answer-user'>{answer.nickname}</p>
                                     </div>
