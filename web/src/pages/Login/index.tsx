@@ -62,7 +62,7 @@ const Login = () => {
             setUsers(response.data);
         }
         getUsers();
-    }, []);
+    }, [showModal]);
 
     return (
         <main className='login-main'>

@@ -72,6 +72,7 @@ const Question = () => {
 
             const responseUser = await api.get(`user/${userId}`);
             const response = await api.get(`question/${questionId}`);
+            const responseQuestionUser = await api.get(`user/${response.data.userId}`);
             const responseAnswers = await api.get(`answers/question/${questionId}`);
 
             const answers: Answer[] = responseAnswers.data;
@@ -95,7 +96,7 @@ const Question = () => {
             const question: QuestionDTO = {
                 id: response.data.id,
                 userId: response.data.userId,
-                nickname: responseUser.data.nickname,
+                nickname: responseQuestionUser.data.nickname,
                 title: response.data.title,
                 body: response.data.body,
                 createDate: response.data.createDate,
