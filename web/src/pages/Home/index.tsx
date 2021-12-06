@@ -136,10 +136,13 @@ const Login = () => {
                                             </div>
                                         </div>
                                         {question.answers.length > 0 ?
-                                            <div className='question-card-answer'>
-                                                <p className='question-card-answer-body'>{question.answers[0].body}</p>
-                                                <p className='question-card-answer-user'>{question.answers[0].nickname}</p>
-                                            </div> :
+                                            question.answers.slice(0, 2).map(answer => (
+                                                <div className='question-card-answer'>
+                                                    <p className='question-card-answer-body'>{answer.body}</p>
+                                                    <p className='question-card-answer-user'>{answer.nickname}</p>
+                                                </div>
+                                            ))
+                                            :
                                             null}
                                     </div>
                                 </li>
