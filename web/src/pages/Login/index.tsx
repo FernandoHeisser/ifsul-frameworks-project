@@ -34,8 +34,9 @@ const Login = () => {
     function handleSubmit(event: FormEvent) {
         const foundWithEmail = users.find((user: User) => user.email === email);
         if (foundWithEmail !== undefined) {
-            const foundWithPassword = users.find((user: User) => user.password === password);
+            const foundWithPassword = users.find((user: User) => user.email === email && user.password === password);
             if (foundWithPassword !== undefined) {
+                console.log(foundWithEmail);
                 login(foundWithPassword);
             } else {
                 alertError();

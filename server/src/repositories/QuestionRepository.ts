@@ -33,7 +33,7 @@ class QuestionRepository {
                         userId: question.userId,
                         title: question.title,
                         body: question.body,
-                        createDate: new Date().toISOString(),
+                        createDate: question.createDate,
                         answers: answers
                     };
                     questionsAnswered.push(questionAnswered);
@@ -60,7 +60,7 @@ class QuestionRepository {
                     userId: question.userId,
                     title: question.title,
                     body: question.body,
-                    createDate: new Date().toISOString(),
+                    createDate: question.createDate,
                     answers: answers
                 };
 
@@ -90,7 +90,7 @@ class QuestionRepository {
                         userId: question.userId,
                         title: question.title,
                         body: question.body,
-                        createDate: new Date().toISOString(),
+                        createDate: question.createDate,
                         answers: answers
                     };
                     questionsAnswered.push(questionAnswered);
@@ -125,7 +125,7 @@ class QuestionRepository {
                         userId: question.userId,
                         title: question.title,
                         body: question.body,
-                        createDate: new Date().toISOString(),
+                        createDate: question.createDate,
                         answers: answers
                     };
                     questionsAnswered.push(questionAnswered);

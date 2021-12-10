@@ -22,7 +22,7 @@ const Login = () => {
     }
     function logOut() {
         if (window.confirm("Tem certeza que deseja sair?")) {
-            localStorage.clear();
+            window.localStorage.clear();
             history.push('/');
         }
     }
@@ -36,11 +36,12 @@ const Login = () => {
     }
     async function searchQuestions(event: ChangeEvent<HTMLInputElement>) {
         const searchParameter = event.target.value;
+        var response;
 
         if (searchParameter === '' || searchParameter === undefined || searchParameter === null) {
-            var response = await api.get(`question-list`);
+            response = await api.get(`question-list`);
         } else {
-            var response = await api.get(`question-list/search/${searchParameter}`);
+            response = await api.get(`question-list/search/${searchParameter}`);
         }
 
         if (response.status === 200) {
@@ -133,13 +134,15 @@ const Login = () => {
                                             </div>
                                             <div className='question-card-user-information'>
                                                 <p className='card-user-nickname'>{question.nickname}</p>
+                                                <p className='card-user-date'>{question?.createDate.slice(0, 10).split('-').reverse().join('/')}</p>
                                             </div>
                                         </div>
                                         {question.answers.length > 0 ?
                                             question.answers.slice(0, 2).map(answer => (
-                                                <div className='question-card-answer'>
+                                                <div key={answer.id} className='question-card-answer'>
                                                     <p className='question-card-answer-body'>{answer.body}</p>
                                                     <p className='question-card-answer-user'>{answer.nickname}</p>
+                                                    <p className='question-card-answer-date'>{answer.createDate.slice(0, 10).split('-').reverse().join('/')}</p>
                                                 </div>
                                             ))
                                             :

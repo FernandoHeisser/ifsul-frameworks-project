@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Answer from '../../models/Answer';
 import AnswerDTO from '../../models/AnswerDTO';
@@ -17,7 +17,7 @@ const Question = () => {
 
     function logOut() {
         if (window.confirm("Tem certeza que deseja sair?")) {
-            localStorage.clear();
+            window.localStorage.clear();
             history.push('/');
         }
     }
@@ -164,6 +164,7 @@ const Question = () => {
                                 </div>
                                 <div className='question-card-user-information'>
                                     <p className='card-user-nickname'>{question?.nickname}</p>
+                                    <p className='card-user-date'>{question?.createDate.slice(0, 10).split('-').reverse().join('/')}</p>
                                 </div>
                             </div>
                             <div className='question-card-answer-box'>
@@ -182,6 +183,7 @@ const Question = () => {
                                     <div key={answer.id} className='question-card-answer'>
                                         <p className='question-card-answer-body'>{answer.body}</p>
                                         <p className='question-card-answer-user'>{answer.nickname}</p>
+                                        <p className='question-card-answer-date'>{answer.createDate.slice(0, 10).split('-').reverse().join('/')}</p>
                                     </div>
                                 )) :
                                 null}
